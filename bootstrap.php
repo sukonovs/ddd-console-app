@@ -3,7 +3,7 @@
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
 
-$paths = ["/src/Entities"];
+$paths = ["/src/Entity"];
 $isDevMode = true;
 
 $dbParams = [
