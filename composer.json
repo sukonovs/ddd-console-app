@@ -3,7 +3,8 @@
         "doctrine/orm": "^2.7",
         "phpunit/phpunit": "^9.1",
         "php-di/php-di": "^6.1",
-        "vlucas/phpdotenv": "^4.1"
+        "vlucas/phpdotenv": "^4.1",
+        "ramsey/uuid-doctrine": "^1.6"
     },
     "autoload": {
         "psr-4": {
