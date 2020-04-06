@@ -1,0 +1,17 @@
+#!/usr/bin/env php
+<?php
+
+require_once 'bootstrap.php';
+
+try {
+    $dbh = new PDO(sprintf("mysql:host=%s",getenv('HOST')), getenv('USER'), getenv('PASSWORD'));
+    $dbh->exec(sprintf("CREATE DATABASE %s", getenv('DB_NAME')));
+
+    echo "Database created \n";
+    exit(0);
+} catch (Throwable $e) {
+    echo sprintf("%s\n", $e);
+    exit(1);
+}
+
+

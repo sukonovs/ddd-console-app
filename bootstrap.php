@@ -3,18 +3,26 @@
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
 
-$paths = ["/src/Entity"];
-$isDevMode = true;
+require __DIR__.'/vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 $dbParams = [
-    'driver'   => 'pdo_mysql',
-    'user'     => 'root',
-    'password' => 'root',
-    'dbname'   => 'app',
+    'driver'   => "pdo_mysql",
+    'host' => getenv('HOST'),
+    'user'     => getenv('USER'),
+    'password' => getenv('PASSWORD'),
+    'dbname'   => getenv('DB_NAME'),
 ];
 
 $builder = new DI\ContainerBuilder();
 $container = $builder->build();
 
-$config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
+$paths = [__DIR__."/src/Entity"];
+$isDevMode = true;
+$proxyDir = null;
+$cache = null;
+$useSimpleAnnotationReader = false;
+$config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode, $proxyDir, $cache, $useSimpleAnnotationReader);
 $entityManager = EntityManager::create($dbParams, $config);

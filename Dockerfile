@@ -8,4 +8,6 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
  && php composer-setup.php -- --filename=composer --install-dir=/usr/local/bin  \
  && rm composer-setup.php
 
+WORKDIR /var/www/html
+
 RUN docker-php-ext-install pdo pdo_mysql
