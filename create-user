@@ -1,0 +1,17 @@
+#!/usr/bin/env php
+<?php
+
+require_once 'bootstrap.php';
+
+try {
+    $user = new \App\Entity\User("Janis", "Valdis");
+    $entityManager->persist($user);
+    $entityManager->flush();
+
+    echo sprintf("User with %s created \n",$user->getId());
+    echo sprintf("Use it in commands\n");
+    exit(0);
+} catch(\Throwable $e) {
+    echo sprintf("%s\n", $e);
+    exit(1);
+}
