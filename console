@@ -3,5 +3,48 @@
 
 set_time_limit(0);
 
-require __DIR__.'/bootstrap.php';
+require __DIR__ . '/bootstrap.php';
 
+/** @var App\App $app */
+$app = $container->get(\App\App::class);
+try {
+    $output = $app->run(new App\ConsoleRequest($argv));
+    echo colorize($output, "SUCCESS");
+    echo "\n";
+    exit(0);
+} catch (App\Exceptions\DomainException $e) {
+    echo colorize("Could not execute command:", "WARNING");
+    echo sprintf(" %s\n", $e->getMessage());
+    exit(0);
+} catch (App\Exceptions\ParametersException $e) {
+    echo colorize("Wrong parameters:", "NOTE");
+    echo sprintf(" %s\n", $e->getMessage());
+    exit(0);
+} catch (\Throwable $e) {
+    echo colorize("Error:", "ERROR");
+    echo sprintf(" %s\n", $e->getMessage());
+    echo sprintf(" %s\n", $e->getTraceAsString());
+    exit(1);
+}
+
+//@see https://softkube.com/blog/generating-command-line-colors-with-php
+function colorize($text, $status) {
+ $out = "";
+ switch($status) {
+  case "SUCCESS":
+   $out = "[42m"; //Green background
+   break;
+  case "FAILURE":
+   $out = "[41m"; //Red background
+   break;
+  case "WARNING":
+   $out = "[43m"; //Yellow background
+   break;
+  case "NOTE":
+   $out = "[44m"; //Blue background
+   break;
+  default:
+   throw new Exception("Invalid status: " . $status);
+ }
+ return chr(27) . "$out" . "$text" . chr(27) . "[0m";
+}
