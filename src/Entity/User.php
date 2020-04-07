@@ -8,7 +8,6 @@ use App\UpdateShippingAddressRequest;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use DomainException;
 use Ramsey\Uuid\UuidInterface;
 
 /**
@@ -84,26 +83,27 @@ class User
         $this->shippingAddresses->removeElement($address);
     }
 
+    public function updateShippingAddress(ShippingAddress $address, UpdateShippingAddressRequest $request): void
+    {
+        $key = $this->shippingAddresses->indexOf($address);
+
+        if (!$key) {
+            throw new DomainException("Address does not belong to user");
+        }
+
+        if ($request->isDefault() === true) {
+            $this->shippingAddresses->map(function (ShippingAddress $address) {
+                $address->removeDefault();
+            });
+        }
+
+        /** @var ShippingAddress $address */
+        $address = $this->shippingAddresses->get($key);
+        $address->update($request);
+    }
+
     public function getId(): UuidInterface
     {
         return $this->id;
-    }
-
-    public function getFirstName(): string
-    {
-        return $this->firstName;
-    }
-
-    public function getLastName(): string
-    {
-        return $this->lastName;
-    }
-
-    /**
-     * @return ShippingAddress[]|Collection
-     */
-    public function getShippingAddresses(): Collection
-    {
-        return $this->shippingAddresses;
     }
 }

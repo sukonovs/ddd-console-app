@@ -66,11 +66,47 @@ class ShippingAddress
         $this->default = true;
     }
 
+    public function removeDefault()
+    {
+        $this->default = false;
+    }
+
     /**
      * @return bool
      */
     public function isDefault(): bool
     {
         return $this->default;
+    }
+
+    /**
+     * @return UuidInterface
+     */
+    public function getId(): UuidInterface
+    {
+        return $this->id;
+    }
+
+    public function update(UpdateShippingAddressRequest $serviceRequest)
+    {
+        if ($serviceRequest->isDefault() !== null) {
+            $this->default = $serviceRequest->isDefault();
+        }
+
+        if ($serviceRequest->getStreet() !== null) {
+            $this->street = $this->validate($serviceRequest->getStreet(), 'street');
+        }
+
+        if ($serviceRequest->getZipCode() !== null) {
+            $this->zipCode = $this->validate($serviceRequest->getZipCode(), 'zipCode');
+        }
+
+        if ($serviceRequest->getCity() !== null) {
+            $this->city = $this->validate($serviceRequest->getCity(), 'city');
+        }
+
+        if ($serviceRequest->getCountry() !== null) {
+            $this->country = $this->validate($serviceRequest->getCountry(), 'country');
+        }
     }
 }
