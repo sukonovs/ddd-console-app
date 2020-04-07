@@ -4,9 +4,10 @@ Docker, Docker compose, Makefile, Git (for git clone)
 ## Installation
 1) Clone/Download repo
 2) run ``make build`` to build containers
-2) run ``make setup`` to setup project
-3) experiment with commands
-5) run ``make end`` for cleanup
+3) run ``make setup`` to setup project
+4) experiment with commands
+5) run ``make test`` to test domain logic
+6) run ``make end`` for cleanup
 
 ## Commands
 1) ADD
