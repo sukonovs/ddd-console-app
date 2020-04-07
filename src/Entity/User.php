@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use App\Components\StringValue;
+use App\Exceptions\DomainException;
+use App\UpdateShippingAddressRequest;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,6 +17,8 @@ use Ramsey\Uuid\UuidInterface;
  */
 class User
 {
+    use StringValue;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
@@ -39,34 +44,11 @@ class User
 
     public function __construct(string $firstName, string $lastName)
     {
-        $this->firstName = $this->validateFirstName($firstName);
-        $this->lastName = $this->validateLastName($lastName);
+        $this->firstName = $this->validate($firstName, 'firstName');
+        $this->lastName = $this->validate($lastName, 'lastName');
         $this->shippingAddresses = new ArrayCollection();
     }
 
-    private function validateFirstName(string $firstName): string
-    {
-        $minLength = 1;
-        $maxLength = 255;
-
-        if (mb_strlen($firstName) > $maxLength || mb_strlen($firstName) < $maxLength) {
-            throw new DomainException(sprintf("First name should be between %s and %s characters", $minLength, $maxLength));
-        }
-
-        return $firstName;
-    }
-
-    private function validateLastName(string $lastName): string
-    {
-        $minLength = 1;
-        $maxLength = 255;
-
-        if (mb_strlen($lastName) > $maxLength || mb_strlen($lastName) < $maxLength) {
-            throw new DomainException(sprintf("Last name should be between %s and %s characters", $minLength, $maxLength));
-        }
-
-        return $lastName;
-    }
 
     public function addShippingAddress(ShippingAddress $address): void
     {

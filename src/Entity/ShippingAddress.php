@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Components\StringValue;
+use App\UpdateShippingAddressRequest;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
 
@@ -11,6 +13,8 @@ use Ramsey\Uuid\UuidInterface;
  */
 class ShippingAddress
 {
+    use StringValue;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
@@ -51,10 +55,10 @@ class ShippingAddress
 
     public function __construct(string $country, string $city, string $zipCode, string $street)
     {
-        $this->country = $country;
-        $this->city = $city;
-        $this->zipCode = $zipCode;
-        $this->street = $street;
+        $this->country = $this->validate($country, 'country');
+        $this->city = $this->validate($city, 'city');
+        $this->zipCode = $this->validate($zipCode, 'zipCode');
+        $this->street = $this->validate($street, 'street');
     }
 
     public function setDefault()
