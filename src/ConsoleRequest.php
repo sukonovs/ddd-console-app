@@ -12,7 +12,7 @@ class ConsoleRequest
 
     public function __construct(array $arguments)
     {
-        if (!isset($arguments[1]) || !in_array($arguments[1], $arguments)) {
+        if (!isset($arguments[1])) {
             throw new ParametersException("First argument should be action");
         }
 
