@@ -21,11 +21,11 @@ class UpdateShippingAddressRequest
     ];
 
     private string $uuid;
-    private ?string $country;
-    private ?string $city;
-    private ?string $zipCode;
-    private ?string $street;
-    private ?bool $default;
+    private ?string $country = null;
+    private ?string $city = null;
+    private ?string $zipCode = null;
+    private ?string $street = null;
+    private ?bool $default = null;
 
     public function __construct(array $arguments)
     {
@@ -39,8 +39,16 @@ class UpdateShippingAddressRequest
 
         unset($arguments[0]);
 
+        if (!$arguments) {
+            throw new ParametersException(
+                sprintf(
+                    'You should update at least one field. Allowed fields %s',
+                    implode(', ', $this->allowedFields))
+            );
+        }
+
         foreach ($arguments as $argument) {
-            if (strpos($argument, ':') !== false) {
+            if (strpos($argument, ':') === false) {
                 throw new ParametersException('Parameter should be in format "field:value"');
             }
 
@@ -61,9 +69,8 @@ class UpdateShippingAddressRequest
                 $value = (bool) $value;
             }
 
-            $this->$value = $value;
+            $this->$field = $value;
         }
-
     }
 
     public function getUuid(): string
