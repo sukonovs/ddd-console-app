@@ -44,21 +44,22 @@ class ShippingAddress
     private string $street;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", name="is_default")
      */
-    private bool $default;
+    private bool $default = false;
 
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="shippingAddresses")
      */
     protected User $user;
 
-    public function __construct(string $country, string $city, string $zipCode, string $street)
+    public function __construct(string $country, string $city, string $zipCode, string $street, User $user)
     {
         $this->country = $this->validate($country, 'country');
         $this->city = $this->validate($city, 'city');
         $this->zipCode = $this->validate($zipCode, 'zipCode');
         $this->street = $this->validate($street, 'street');
+        $this->user = $user;
     }
 
     public function setDefault()

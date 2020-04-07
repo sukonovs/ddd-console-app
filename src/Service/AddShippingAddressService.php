@@ -32,7 +32,8 @@ class AddShippingAddressService
             $serviceRequest->getCountry(),
             $serviceRequest->getCity(),
             $serviceRequest->getZipCode(),
-            $serviceRequest->getStreet()
+            $serviceRequest->getStreet(),
+            $user
         );
 
         $user->addShippingAddress($address);
