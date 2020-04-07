@@ -35,9 +35,9 @@ class UpdateShippingAddressRequest
             throw new ParametersException('Address UUID should be present.');
         }
 
-        unset($arguments[0]);
-
         $this->uuid = $arguments[0];
+
+        unset($arguments[0]);
 
         foreach ($arguments as $argument) {
             if (strpos($argument, ':') !== false) {
