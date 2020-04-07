@@ -10,8 +10,6 @@ require __DIR__.'/vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-
-
 // Doctrine
 $paths = [__DIR__."/src/Entity"];
 $isDevMode = true;
