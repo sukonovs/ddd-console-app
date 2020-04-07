@@ -39,19 +39,19 @@ class App
         switch ($request->getAction()) {
             case static::ACTION__ADD:
                 $serviceRequest = new AddShippingAddressRequest($request->getCommandArguments());
-                $this->addShippingAddressService->execute($request->getUserUuid(), $serviceRequest);
+                $addressId = $this->addShippingAddressService->execute($request->getUserUuid(), $serviceRequest);
 
-                return new ConsoleResponse('Shipping address has been added');
+                return new ConsoleResponse(sprintf('Shipping address %s has been added', $addressId));
             case static::ACTION__UPDATE:
                 $serviceRequest = new UpdateShippingAddressRequest($request->getCommandArguments());
-                $this->updateShippingAddressService->execute($request->getUserUuid(), $serviceRequest);
+                $addressId = $this->updateShippingAddressService->execute($request->getUserUuid(), $serviceRequest);
 
-                return new ConsoleResponse('Shipping address has been updated');
+                return new ConsoleResponse(sprintf('Shipping address %s has been updated', $addressId));
             case static::ACTION__REMOVE:
                 $serviceRequest = new RemoveShippingAddressRequest($request->getCommandArguments());
-                $this->removeShippingAddressService->execute($request->getUserUuid(), $serviceRequest);
+                $addressId = $this->removeShippingAddressService->execute($request->getUserUuid(), $serviceRequest);
 
-                return new ConsoleResponse('Shipping address has been removed');
+                return new ConsoleResponse(sprintf('Shipping address %s has been removed', $addressId));
             default:
                 throw new ParametersException(
                     sprintf("Invalid action. Allowed: %s", implode(', ', $this->allowedActions))

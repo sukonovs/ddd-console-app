@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Components\ShippingAddressId;
 use App\Entity\ShippingAddress;
 use App\Entity\User;
 use App\Exceptions\DomainException;
@@ -17,7 +18,7 @@ class UpdateShippingAddressService
         $this->em = $em;
     }
 
-    public function execute(string $getUserUuid, UpdateShippingAddressRequest $serviceRequest): void
+    public function execute(string $getUserUuid, UpdateShippingAddressRequest $serviceRequest): ShippingAddressId
     {
         $userRepo = $this->em->getRepository(User::class);
         /** @var User $user */
@@ -37,5 +38,7 @@ class UpdateShippingAddressService
 
         $user->updateShippingAddress($address, $serviceRequest);
         $this->em->flush();
+
+        return new ShippingAddressId($address);
     }
 }
