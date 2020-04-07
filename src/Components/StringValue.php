@@ -11,7 +11,7 @@ trait StringValue
         $minLength = 1;
         $maxLength = 255;
 
-        if (mb_strlen($string) > $maxLength || mb_strlen($string) < $maxLength) {
+        if (mb_strlen($string) > $maxLength || mb_strlen($string) < $minLength) {
             throw new DomainException(sprintf("%s should be between %s and %s characters", $name, $minLength, $maxLength));
         }
 
