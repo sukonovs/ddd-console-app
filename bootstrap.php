@@ -10,9 +10,7 @@ require __DIR__.'/vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-// Container
-$builder = new DI\ContainerBuilder();
-$container = $builder->build();
+
 
 // Doctrine
 $paths = [__DIR__."/src/Entity"];
@@ -32,3 +30,11 @@ $dbParams = [
 $entityManager = EntityManager::create($dbParams, $config);
 
 \Doctrine\DBAL\Types\Type::addType('uuid', UuidType::class);
+
+
+// Container
+$builder = new DI\ContainerBuilder();
+$builder->addDefinitions([
+    EntityManager::class => $entityManager
+]);
+$container = $builder->build();
