@@ -21,7 +21,7 @@ try {
     echo sprintf(" %s\n", $e->getMessage());
     exit(0);
 } catch (\Throwable $e) {
-    echo colorize("Error:", "ERROR");
+    echo colorize("Error:", "FAILURE");
     echo sprintf(" %s\n", $e->getMessage());
     echo sprintf(" %s\n", $e->getTraceAsString());
     exit(1);
