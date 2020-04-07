@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ShippingAddressRepository")
+ * @ORM\Entity()
  * @ORM\Table(name="shipping_address")
  */
 class ShippingAddress
