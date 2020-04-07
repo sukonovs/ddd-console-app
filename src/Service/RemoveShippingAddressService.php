@@ -36,9 +36,12 @@ class RemoveShippingAddressService
             throw new DomainException('Address not found.');
         }
 
+        $shippingAddressId = new ShippingAddressId($address);
+
         $user->removeShippingAddress($address);
+        $this->em->remove($address);
         $this->em->flush();
 
-        return new ShippingAddressId($address);
+        return $shippingAddressId;
     }
 }
